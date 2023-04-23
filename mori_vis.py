@@ -17,7 +17,7 @@ model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14").to(device)
 tokenizer = AutoTokenizer.from_pretrained("openai/clip-vit-large-patch14")
 processor = AutoProcessor.from_pretrained("openai/clip-vit-large-patch14")
 
-ART_PATH = 'images/saved/*'
+ART_PATH = 'images/*'
 art = []
 
 for filename in glob.iglob(ART_PATH):
@@ -56,7 +56,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.g = gl.GLGridItem()
         self.w.addItem(self.g)
 
-        self.color = np.array([(1*x, 0.2+0.5*x, 0.1+0.3*x, 1) for x in np.linspace(0, 1, self.embedding.shape[0])])
+        kmeans_group = np.load('kmeans_labels.npz')['features']
+        color_pal = np.load('color_palette.npz')['colors']
+        self.color = np.array([color_pal[i] for i in kmeans_group])
 
         self.sp1 = gl.GLScatterPlotItem(pos=self.embedding, size=np.ones(self.embedding.shape[0])*0.1, color=self.color, pxMode=False)
         self.sp1.translate(0,-10,-5)
@@ -124,7 +126,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.sp1.setData(pos=embedding_new, size=np.ones(embedding_new.shape[0])*0.1, color=color_new)
         self.gridWin = GridWindow()
         self.gridWin.show()
-    
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
