@@ -17,7 +17,7 @@ model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14").to(device)
 tokenizer = AutoTokenizer.from_pretrained("openai/clip-vit-large-patch14")
 processor = AutoProcessor.from_pretrained("openai/clip-vit-large-patch14")
 
-ART_PATH = 'images/*'
+ART_PATH = 'images/saved/*'
 art = []
 
 for filename in glob.iglob(ART_PATH):

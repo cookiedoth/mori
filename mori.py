@@ -4,7 +4,7 @@ import pyqtgraph.opengl as gl
 import numpy as np
 import umap
 
-image_features = np.load('image_features.npz')['features']
+image_features = np.load('features.npz')['features']
 embedding = umap.UMAP(n_components=3, metric='minkowski', n_epochs=300, random_state=72).fit_transform(image_features)
 
 app = QtWidgets.QApplication([])
